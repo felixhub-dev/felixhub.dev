@@ -31,6 +31,7 @@ class TimeLeftData {
             <span class="timer-unit hours">${this.hours}h</span>
             <span class="timer-unit minutes">${this.minutes}m</span>
             <span class="timer-unit seconds">${this.seconds}s</span>
+            <span class="timer-unit milliseconds">${this.milliseconds}s</span>
             till hell ends.
         `;
     }

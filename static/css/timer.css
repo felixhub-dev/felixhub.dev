@@ -110,4 +110,9 @@
     text-shadow: 0 0 8px #ff0000;
 }
 
+.timer-unit.milliseconds {
+    color: #3700ff;
+    text-shadow: 0 0 8px #3700ff;
+}
+
 /* red */
