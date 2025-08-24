@@ -1,6 +1,6 @@
-{pkgs}: final: prev:
-let 
-  felixhub = (with pkgs; buildNpmPackage {
+{pkgs}: 
+
+  (with pkgs; buildNpmPackage {
     pname = "felixhub-portfolio-site";
     version = "1.0";
 
@@ -30,7 +30,4 @@ let
       license = lib.licenses.gpl3Only;
       maintainers = with lib.maintainers; [ felix ];
     };
-  });
-in {
-  inherit felixhub;
-}
+  })

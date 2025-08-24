@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&amp;display=swap" rel="stylesheet">
@@ -12,10 +14,11 @@
     <link rel="stylesheet" href="/static/css/animations.css">
     <link rel="stylesheet" href="/static/css/sidebar.css">
     <title>felixhub.dev | AI</title>
-    
+
 </head>
+
 <body>
-    
+
     <header>
         <div class="header-content">
             <img src="/static/images/favicon.ico" alt="Logo" class="logo">
@@ -23,16 +26,18 @@
             <button id="open-btn" class="open-btn">&#9776;</button>
         </div>
     </header>
-    
+
     <div id="sidebar" class="sidebar">
         <button id="close-btn" class="close-btn">X</button>
         <nav>
             <a href="/signup">Signup</a>
-            <a href="/AIpage">AI <span class="badge">Beta</span></a>
-            <a href="#faq">FAQ</a> 
-            <a href="#contact">Contact</a> 
+            <a href="https://ai.felixhub.dev">AI <span class="badge">Beta</span></a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
             <a href="/projects">Projects <span class="badge">Beta</span></a>
             <a href="/about">About </a>
+            <a href="/games">Games </a>
+
         </nav>
     </div>
 
@@ -44,40 +49,44 @@
             <div class="file-input-wrapper">
                 <input type="file" id="fileInput" class="fileInput" accept="image/*" onchange="previewImage()">
                 <label for="fileInput" class="custom-file-label">Choose File</label>
-            </div>            
-            <input type="text" id="user-input" class="styled-input" placeholder="Choose a model"> 
+            </div>
+            <input type="text" id="user-input" class="styled-input" placeholder="Choose a model">
 
             <div class="dropdown-container">
                 <button class="dropdown-button">Select model</button>
                 <div class="dropdown-menu hidden">
                     <!-- TODO instead of defining these models have a route to find out what models are avvailble -->
                     <div class="dropdown-option" data-ai="llava">llava</div>
-                    <div class="dropdown-option" data-ai="dolphin-mistral">dolphin-mistral</div> 
+                    <div class="dropdown-option" data-ai="dolphin-mistral">dolphin-mistral</div>
                     <!-- <div class="dropdown-option" data-ai="">Chat Falcon</div> -->
                 </div>
             </div>
-        
+
             <button type="button" class="styled-button" id="submit" onclick="sendMessage()">
                 <span class="material-icons">arrow_forward</span>
             </button>
-    
+
             <!-- Dropdown Menu for AI Selection -->
-    </div>
-    <div class="preview-container">
-        <img id="imagePreview" class="image-preview hidden" src="" alt="Image Preview" style="display: none;">
-        <button class="close-button hidden" id="closeButton" style="display: none;" onclick="clearImage()">×</button>
-    </div>
-    
-    <script src="javascript-src/clientSide/AI_handle.js"></script>
-    <script src="javascript-src/clientSide/sideBarButtons.js"></script>
-    <!-- <script type="module" src="/clientSide/fileUtils.js"></script>
+        </div>
+        <div class="preview-container">
+            <img id="imagePreview" class="image-preview hidden" src="" alt="Image Preview" style="display: none;">
+            <button class="close-button hidden" id="closeButton" style="display: none;"
+                onclick="clearImage()">×</button>
+        </div>
+
+        <script src="javascript-src/clientSide/timer.js"></script>
+        <script src="javascript-src/clientSide/AI_handle.js"></script>
+        <script src="javascript-src/clientSide/sideBarButtons.js"></script>
+        <!-- <script type="module" src="/clientSide/fileUtils.js"></script>
     <script type="module" src="/clientSide/dropdownUtils.js"></script>
     <script type="module" src="/clientSide/chatHandler.js"></script>
     <script type="module" src="/clientSide/main.js"></script> -->
-    
-    <footer>
-        <p>© 2025 felixhub.dev. All rights reserved.</p>
-    </footer>
+
+        <footer>
+            <p>© 2025 felixhub.dev. All rights reserved.</p>
+        </footer>
 
 
-</body></html>
+</body>
+
+</html>

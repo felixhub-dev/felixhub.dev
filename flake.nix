@@ -10,13 +10,13 @@
       systems = flake-utils.lib.defaultSystems;
 
       perSystem = { system, pkgs, ... }: let
-        extendedPkgs = pkgs.extend (import ./nix/default.nix {
+        felixhub = import ./nix/default.nix {
           inherit pkgs;
-        });
+        };
         
       in {
         packages = {
-          default = extendedPkgs.felixhub;
+          default = felixhub;
 
           dockerImage = pkgs.dockerTools.buildImage {
             name = "felixhub.dev";
@@ -40,17 +40,17 @@
               paths = [
                 pkgs.nodejs_22
                 pkgs.bash
-                extendedPkgs.felixhub
+                felixhub
               ];
               pathsToLink = [ "/bin" "/app" ];
             };
           };
         };
 
-        devShells.default = extendedPkgs.mkShell {
+        devShells.default = pkgs.mkShell {
           buildInputs = [
-            extendedPkgs.nodejs
-            extendedPkgs.typescript
+            pkgs.nodejs
+            pkgs.typescript
           ];
         };
       };

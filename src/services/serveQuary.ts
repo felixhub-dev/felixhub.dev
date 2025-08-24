@@ -5,26 +5,41 @@ import RootFelixHubServiceBase from '../utility/RootFelixHubServiceBase';
 
 export default class FelixHubServeQueryService extends RootFelixHubServiceBase {
     // Override the callback method to implement the service logic
-    public async callBack(req: FastifyRequest<{ Params: { projectName: string } }>, reply: FastifyReply): Promise<void> {
-        // Ensure params has the folder key
+    public async callBack(
+        req: FastifyRequest<{ Params: { projectName: string } }>,
+        reply: FastifyReply
+    ): Promise<void> {
         if (!this.params || !this.params.folder) {
             reply.status(500).send({ error: 'Service parameters are missing or incomplete.' });
             return;
         }
 
-        const folder: string = this.params.folder; // Get folder from params
+        const folder: string = this.params.folder;
         const queryName = req.params.projectName;
 
-        // Construct the document path
-        const docPath: string = path.join(__dirname, "..", "..", "/static", folder, `${queryName.slice(1)}.html`);
-
         try {
-            // Check if the file exists using the utils method
-            if (await this.utils.fileExists(docPath)) {
-                const data: string = await fs.readFile(docPath, 'utf-8');
+            // Resolve and normalize paths
+            const staticDir = path.resolve(__dirname, "..", "..", "static", folder);
+            const safePath = path.normalize(path.join(staticDir, `${queryName.slice(1)}.html`));
+
+            // Ensure the path is inside the intended folder
+            if (!safePath.startsWith(staticDir)) {
+                reply.status(400).send({ error: 'Invalid file path' });
+                return;
+            }
+
+            // Optional: allow only .html files
+            if (path.extname(safePath) !== '.html') {
+                reply.status(400).send({ error: 'Forbidden file type' });
+                return;
+            }
+
+            // Check if file exists
+            if (await this.utils.fileExists(safePath)) {
+                const data: string = await fs.readFile(safePath, 'utf-8');
                 reply.type('text/html').send(data);
             } else {
-                console.log(`File not found at: ${docPath}`);
+                console.log(`File not found at: ${safePath}`);
                 reply.status(404).send({ error: 'File not found' });
             }
         } catch (error) {

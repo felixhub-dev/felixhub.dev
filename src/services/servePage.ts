@@ -8,9 +8,29 @@ export default class ServePageService extends RootFelixHubServiceBase {
         const fileName = this.params?.fileName;
         const code = this.params?.code ?? 200;
 
+        if (!fileName) {
+            reply.status(400).send("File name is required");
+            return;
+        }
+
         try {
-            const filePath = path.join(__dirname, "..", "..", "static", fileName);
-            const data: string = await fs.readFile(filePath, "utf-8");
+            const staticDir = path.resolve(__dirname, "..", "..", "static");
+            const safePath = path.normalize(path.join(staticDir, fileName));
+
+
+            if (!safePath.startsWith(staticDir)) {
+                reply.status(400).send("Invalid file path");
+                return;
+            }
+
+
+            const allowedExtensions = [".html", ".css", ".js"];
+            if (!allowedExtensions.includes(path.extname(safePath))) {
+                reply.status(400).send("Forbidden file type");
+                return;
+            }
+
+            const data: string = await fs.readFile(safePath, "utf-8");
 
             reply
                 .type("text/html")

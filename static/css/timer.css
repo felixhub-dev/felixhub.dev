@@ -1,0 +1,113 @@
+/* Full-screen sliding panel */
+.full-screen-panel {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    /* hidden initially */
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 20, 20, 0.95);
+    /* darker for better contrast */
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Fira Code', monospace;
+    font-size: 48px;
+    text-align: center;
+    z-index: 1000;
+    transition: left 0.5s ease;
+    backdrop-filter: blur(4px);
+    /* subtle blur behind overlay */
+}
+
+/* Panel open state */
+.full-screen-panel.open {
+    left: 0;
+}
+
+/* Floating circular arrow on the left */
+/* Floating circular arrow on the left */
+.floating-arrow {
+    position: fixed;
+    left: 10px;
+    top: 80%;
+    /* lower on the screen */
+    transform: translateY(-50%) rotate(0deg);
+    width: 35px;
+    /* smaller circle */
+    height: 35px;
+    /* smaller circle */
+    background: #1e1e1e;
+    color: #fff;
+    font-size: 20px;
+    /* smaller arrow icon */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    border: 2px solid #00ffea;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+/* Rotate arrow when panel is open */
+.floating-arrow.open {
+    transform: translateY(-50%) rotate(180deg);
+    background: #111;
+}
+
+/* Style the timer text inside the panel */
+.full-screen-panel .time-left {
+    font-family: 'Fira Code', monospace;
+    font-size: 52px;
+    color: #00ffea;
+    /* main neon cyan */
+    text-shadow:
+        0 0 5px #00ffea,
+        0 0 10px #00ffea,
+        0 0 20px #00ffea,
+        0 0 40px #00ffea;
+    /* strong glow effect */
+    line-height: 1.5;
+}
+
+/* Individual timer units */
+.timer-unit {
+    font-weight: bold;
+    font-family: 'Fira Code', monospace;
+    margin: 0 6px;
+    padding: 2px 4px;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    display: inline-block;
+    min-width: 70px;
+}
+
+/* Neon colors for each unit */
+.timer-unit.days {
+    color: #00ffea;
+    text-shadow: 0 0 8px #00ffea;
+}
+
+/* cyan */
+.timer-unit.hours {
+    color: #ff9900;
+    text-shadow: 0 0 8px #ff9900;
+}
+
+/* orange */
+.timer-unit.minutes {
+    color: #00ff00;
+    text-shadow: 0 0 8px #00ff00;
+}
+
+/* green */
+.timer-unit.seconds {
+    color: #ff0000;
+    text-shadow: 0 0 8px #ff0000;
+}
+
+/* red */
