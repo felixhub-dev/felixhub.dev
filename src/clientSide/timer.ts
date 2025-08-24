@@ -56,7 +56,6 @@ if (!timer) {
     }
 
     let end_time = await response.json();
-    console.log(end_time)
     const timeLeft = new TimeLeftData(0);
 
     let t = setInterval((() => {
