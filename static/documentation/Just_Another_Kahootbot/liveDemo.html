@@ -1,34 +1,291 @@
+</html>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en-US'>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>felixhub.dev | live kahootbot demo</title>
-    <link rel="stylesheet" href="/static/css/main.css">
-    <link rel="stylesheet" href="/static/css/base.css">
+    <title>Just_Another_Kahoot_Bot</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="JAKBOT live demo">
+    <meta name="keywords"
+        content="kahoot bot, Just_Another_Kahoot_Bot, just another kahoot bot, JAKBOT, kahoot spammer, kahoot, kahoot hack">
+    <meta name="language" content="English">
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" type="text/css" href="/static/documentation/Just_Another_Kahootbot/styles/main.css">
 </head>
+
 <body>
-    <h1>Start A Swarm</h1>
-    <form action="/kahootswarm" method="POST" target="hidden_iframe">
-        <label for="amount">Amount:</label>
-        <input type="number" id="amount" name="amount" required><br><br>
+    <div class='background'></div>
+    <div class='container'>
+        <div class='title'>
+            Just Another Kahoot Bot (JAKBOT)
+        </div>
+        <br>
+        <div class='explanation'>
+            "Over-engineered, enterprise-grade immaturity... because your middle school kahoot bot needs horizontal
+            scaling."<br>
 
-        <label for="gamepin">Game Pin:</label>
-        <input type="text" id="gamepin" name="gamepin" required><br><br>
+        </div><br><br>
 
-        <label for="nickname">Nickname:</label>
-        <input type="text" id="nickname" name="nickname" required><br><br>
+        <div id="mydiv">
+            <div id="mydivheader"></div>
+            <div id="term-content"></div>
+        </div>
 
-        <label for="crash">Crash:</label>
-        <input type="checkbox" id="crash" name="crash"><br><br>
 
-        <label for="ttl">TTL (Time to Live):</label>
-        <input type="number" id="ttl" name="ttl" value="10"><br><br>
 
-        <button type="submit">Start Swarm</button>
-    </form>
+        <script>
+            const mydiv = document.getElementById("mydiv");
+            let isResizing = false;
+            let handle = null;
+            let startX, startY, startWidth, startHeight, startTop, startLeft;
 
-    <!-- Hidden iframe to submit form without redirecting tempory--> 
-    <iframe name="hidden_iframe" style="display:none;"></iframe>
+            document.querySelectorAll(".resize-handle").forEach(h => {
+                h.addEventListener("mousedown", e => {
+                    e.preventDefault();
+                    isResizing = true;
+                    handle = h;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startWidth = mydiv.offsetWidth;
+                    startHeight = mydiv.offsetHeight;
+                    startTop = mydiv.offsetTop;
+                    startLeft = mydiv.offsetLeft;
+                    document.addEventListener("mousemove", resize);
+                    document.addEventListener("mouseup", stopResize);
+                });
+            });
+
+            function resize(e) {
+                if (!isResizing) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+
+                if (handle.classList.contains("right")) mydiv.style.width = startWidth + dx + "px";
+                if (handle.classList.contains("left")) {
+                    mydiv.style.width = startWidth - dx + "px";
+                    mydiv.style.left = startLeft + dx + "px";
+                }
+                if (handle.classList.contains("bottom")) mydiv.style.height = startHeight + dy + "px";
+                if (handle.classList.contains("top")) {
+                    mydiv.style.height = startHeight - dy + "px";
+                    mydiv.style.top = startTop + dy + "px";
+                }
+            }
+
+            function stopResize() {
+                isResizing = false;
+                document.removeEventListener("mousemove", resize);
+                document.removeEventListener("mouseup", stopResize);
+            }
+        </script>
+
+
+        <script>
+            const element = document.getElementById("mydiv");
+            const term = document.getElementById("term-content");
+            var over_term
+            var term_toggle = false;
+            term.addEventListener("mouseenter", () => over_term = true);
+            term.addEventListener("mouseleave", () => over_term = false);
+            let prompt = "JAKBOT_Shell_$: ";
+            term.innerText = prompt;
+
+
+            document.addEventListener("keydown", (e) => {
+                if (over_term) {
+                    if (e.key === "Backspace") {
+                        if (term.innerText.length > prompt.length) {
+                            term.innerText = term.innerText.slice(0, -1);
+                        }
+                        e.preventDefault();
+                        return;
+                    }
+                    if (e.key === "Enter") {
+                        commands(term.innerText.slice(term.innerText.lastIndexOf("\n"), term.innerText.length));
+                        term.innerText += "\n" + prompt;
+                        e.preventDefault();
+                        return;
+                    }
+
+                    if (e.key.length === 1) {
+                        term.innerText += e.key;
+                    }
+
+                    // element.scrollTop = element.scrollHeight;
+                } else {
+
+                    if (e.key === "t" || e.key === "T") {
+                        term_toggle = !term_toggle;
+                        element.style.visibility = term_toggle ? "visible" : "hidden";
+                    };
+                };
+            });
+            // calls wasm code to do heavy lifting cuz its cool idk
+            function commands(text) {
+                console.log(text)
+                if (text == "oneshot") {
+
+                }
+            }
+
+
+
+
+
+
+
+            dragElement(element);
+
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+            function dragElement(e) {
+                const header = document.getElementById(e.id + "header");
+                if (header) {
+                    header.addEventListener("mousedown", dragMouseDown);
+                } else {
+                    e.addEventListener("mousedown", dragMouseDown);
+                }
+            }
+
+            function dragMouseDown(e) {
+                if (element.style.visibility == "hidden") {
+                    return;
+                }
+                e.preventDefault(); // prevent text selection
+                // Ignore clicks on buttons
+                if (e.target.closest(".btn")) return;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                // Attach event listeners
+                document.addEventListener("mouseup", closeDragElement);
+                document.addEventListener("mousemove", elementDrag);
+            }
+
+            function elementDrag(e) {
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                // Remove event listeners
+                document.removeEventListener("mouseup", closeDragElement);
+                document.removeEventListener("mousemove", elementDrag);
+            }
+
+
+        </script>
+
+        <div class='form'>
+            Game PIN:<br>
+            <input class='input' type='number' id='pin' placeholder='000000'><br>
+            <span class='error' id='pinError'></span><br>
+            Name for you bot:<br>
+            (Each bot will have this name + a generated hash)
+            <br>
+            <input class='input' type='text' id='name' placeholder='Felix' value='Joe,Bob,Billy'><br>
+            <span class='error' id='nameError'></span><br>
+
+            <!-- <label for="ans">Bot will answer: </label><br>
+            <select class="input" name="ans" id="ans">
+                <option value="random">Randomly</option>
+                <option value="never">Never</option>
+                <option value="0">First (Red Triangle)</option>
+                <option value="1">Second (Blue Diamond)</option>
+            </select><br><br> -->
+            Number of bots:<br>
+            <input class='input' type='number' id='num' placeholder='100' value='100'><br>
+            <span class='error' id='numError'></span><br>
+            <button class='button' onclick="go()" id="button">Receive disciplinary action</button><br>
+            <span id='success' class='success'></span>
+        </div>
+
+
+
+        <div class="customers">
+            <h2>Our uh... Unsatisfied Customers</h2>
+            <div class="customer-cards">
+                <div class="customer-card">
+                    <p>"If I catch anyone using this thing again, Im giving dententions to the entire class, I am
+                        serious" </p>
+                    <span>- Mr. Harold, World History</span>
+                </div>
+                <div class="customer-card">
+                    <p>"Mitch how did you get a perfect score on the kahoot? I have never seen that before!"</p>
+                    <span>- Ms. Wu, English 2</span>
+                </div>
+                <div class="customer-card">
+                    <p>"EVAN AND TIM TO THE DEANS RIGHT NOW"</p>
+                    <span>- Mr. Taylor, AP Biology</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </body>
+<script>
+    function go() {
+        var valid = true;
+        var pin = document.getElementById('pin').value.toString();
+        if (pin.length <= 2 || pin.length > 10) {
+            document.getElementById('pinError').innerHTML = 'Error: Invalid Game PIN<br>';
+            valid = false;
+        } else {
+            document.getElementById('pinError').innerHTML = '';
+        }
+        var name = document.getElementById('name').value.replace(/\,\s/g, ',');
+        if (name.length < 1) {
+            document.getElementById('nameError').innerHTML = 'Error: Enter at least 1 name<br>';
+            valid = false;
+        } else {
+            document.getElementById('nameError').innerHTML = '';
+        }
+        var num = Number(document.getElementById('num').value);
+        if (num < 1 || num > 1000) {
+            document.getElementById('numError').innerHTML = 'Error: Must be between 1-1000<br>';
+            valid = false;
+        } else {
+            document.getElementById('numError').innerHTML = '';
+        }
+        if (valid) {
+            document.getElementById('button').innerHTML = ' Joining... Press T to get statistics';
+            document.getElementById('success').innerHTML = '';
+            var url = `http://kahootinator.aryan_m.repl.co/?uid=${Date.now()}&pin=${pin}&names=${encodeURIComponent(name)}&ans=${document.getElementById('ans').value}&numBots=${num}`;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log('Response: ' + this.responseText);
+                    document.getElementById('button').innerHTML = 'KAHOOTINATE!';
+                    document.getElementById('success').innerHTML = 'Bots have joined!<br>If it didn\'t work, make sure the PIN you entered was correct.<br>Otherwise, try lowering the number of bots and try again.';
+                }
+            }
+            xhttp.open("GET", url, true); // true for asynchronous 
+            xhttp.send();
+        }
+    }
+
+
+    function init() {
+        var url = `http://kahootinator.aryan_m.repl.co/`;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                console.log('REPL woken up');
+            }
+        }
+        xhttp.open("GET", url, true); // true for asynchronous 
+        xhttp.send();
+    }
+    init();
+</script>
+
 </html>

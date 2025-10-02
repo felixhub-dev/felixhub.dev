@@ -5,7 +5,7 @@ metadata:
   labels:
     app: felixhub
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicaCount | default 1 }}
   selector:
     matchLabels:
       app: felixhub
@@ -14,23 +14,19 @@ spec:
       labels:
         app: felixhub
     spec:
-      serviceAccountName: {{ default (printf "%s-felixhub" .Release.Name) .Values.serviceAccount.name }}
-      securityContext:
-        runAsUser: {{ .Values.securityContext.runAsUser }}
-        runAsGroup: {{ .Values.securityContext.runAsGroup }}
-        fsGroup: {{ .Values.securityContext.fsGroup }}
+      
       containers:
         - name: felixhub
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository | default "feelfeel200088/felixhub.dev" }}:{{ .Values.image.tag | default "latest" }}"
           ports:
             - containerPort: 8080
           resources:
             limits:
-              cpu: {{ .Values.resources.limits.cpu }}
-              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu | default "500m" }}
+              memory: {{ .Values.resources.limits.memory | default "512Mi" }}
             requests:
-              cpu: {{ .Values.resources.requests.cpu }}
-              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu | default "250m" }}
+              memory: {{ .Values.resources.requests.memory | default "256Mi" }}
           readinessProbe:
             httpGet:
               path: /

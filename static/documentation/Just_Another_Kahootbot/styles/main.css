@@ -1,0 +1,288 @@
+/* Container for the whole page */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px 20px;
+    min-height: 100vh;
+    background-color: transparent;
+}
+
+/* Background gradient with text */
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: clamp(5vw, 10vw, 12vw);
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.15);
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+    background: linear-gradient(135deg, #845EC2, #D65DB1);
+}
+
+.background::before {
+    content: "well shit";
+    position: absolute;
+    font-size: clamp(5vw, 10vw, 12vw);
+    font-weight: bold;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: rgba(0, 0, 0, 0.1);
+    transform: rotate(30deg);
+    pointer-events: none;
+}
+
+/* Page title */
+.title {
+    font-size: 2.5em;
+    font-weight: bold;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+@media screen and (orientation: portrait) {
+    .title {
+        font-size: 8vw;
+    }
+}
+
+/* Explanatory text */
+.explanation {
+    font-family: 'Verdana';
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #444;
+}
+
+/* Form styling */
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    font-family: Verdana;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Input fields */
+.input {
+    font-size: 1em;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+    border-color: #845EC2;
+    box-shadow: 0 0 5px rgba(132, 94, 194, 0.5);
+    outline: none;
+}
+
+#numBots {
+    width: 80px;
+    text-align: center;
+}
+
+/* Buttons */
+.button {
+    font-size: 1.2em;
+    font-family: 'Arial Black', sans-serif;
+    padding: 12px 24px;
+    cursor: pointer;
+    background-color: #845EC2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.button:focus {
+    outline: none;
+}
+
+/* Status messages */
+.error {
+    color: #FF4C4C;
+    font-weight: bold;
+}
+
+.success {
+    color: #00C853;
+    font-weight: bold;
+}
+
+/* Customers section */
+.customers {
+    text-align: center;
+    font-family: Verdana, sans-serif;
+    color: #333;
+    width: 100%;
+}
+
+.customers h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Customer cards container */
+.customer-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Individual customer card */
+.customer-card {
+    background-color: #fff;
+    border: 2px solid #845EC2;
+    border-radius: 12px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+}
+
+.customer-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.customer-card p {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.customer-card span {
+    font-size: 0.95em;
+    font-weight: bold;
+    color: #845EC2;
+}
+
+/* Terminal container */
+#mydiv {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 500px;
+    height: 250px;
+    background-color: #000;
+    /* terminal black */
+    color: #00FF00;
+    /* green text */
+    font-family: monospace;
+    font-size: 14px;
+    padding: 10px;
+    padding-top: 40px;
+    /* space for header inside */
+    overflow-y: auto;
+    white-space: pre-wrap;
+    border: 2px solid #333;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    visibility: hidden;
+    /* overflow: hidden; */
+    min-width: 500;
+    min-height: 200;
+}
+
+/* Terminal header inside container */
+#mydivheader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    padding: 5px 10px;
+    cursor: grab;
+    background: linear-gradient(90deg, #845EC2, #D65DB1);
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    user-select: none;
+    z-index: 101;
+    display: flex;
+    justify-content: space-between;
+    /* for buttons */
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+#term-content {
+    width: 100%;
+    /* fill the parent container */
+    height: 300px;
+    /* fixed height */
+    overflow-y: auto;
+    /* allow vertical scrolling */
+    overflow-x: hidden;
+    /* hide horizontal scroll */
+    background-color: black;
+    /* terminal background */
+    color: lime;
+    /* text color */
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.2;
+    white-space: pre-wrap;
+    /* preserve line breaks */
+    padding: 0;
+    /* no inner padding */
+    margin: 0;
+    /* flush with header */
+    box-sizing: border-box;
+    /* include padding/border in size */
+    border: none;
+    /* no visible border */
+    position: relative;
+    /* positioning relative to parent */
+}
+
+/* Header buttons */
+#mydivheader .term-btn {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+#mydivheader .term-btn.close {
+    background-color: #FF5F56;
+}
+
+#mydivheader .term-btn.minimize {
+    background-color: #FFBD2E;
+}
+
+#mydivheader .term-btn.maximize {
+    background-color: #27C93F;
+}
+
+#mydivheader:active {
+    cursor: grabbing;
+    background: linear-gradient(90deg, #D65DB1, #845EC2);
+}

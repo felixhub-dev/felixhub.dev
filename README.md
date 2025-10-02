@@ -6,13 +6,18 @@ Welcome to the **FelixHub** website repository. This is a personal website and A
 
 ## Table of Contents
 
-- [About](#about)
-- [Features](#features)
-- [Technologies](#technologies)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [FelixHub Website](#felixhub-website)
+  - [Table of Contents](#table-of-contents)
+  - [About](#about)
+  - [Features](#features)
+  - [Technologies](#technologies)
+  - [Installation](#installation)
+    - [Option 1: Install Locally](#option-1-install-locally)
+    - [Option 2: Docker Installation](#option-2-docker-installation)
+    - [Option 3: Kubernetes Installation (with `kubectl`)](#option-3-kubernetes-installation-with-kubectl)
+  - [Usage](#usage)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## About
 
@@ -34,10 +39,9 @@ This project is built using the following technologies:
 
 - **Frontend**: HTML, CSS, JavaScript, TypeScript
 - **Backend**: Node.js, Fastify
-- **Real-time Interaction**: Redis (for message queues)
 - **Code Highlighting**: Highlight.js (for displaying code snippets)
 - **AI Interaction**: Ollama (for integrating AI models)
-- **Ngrok**: For tunneling HTTP requests from felixhub to ngrok url to the local server
+- **Cloudflare**: For tunneling requests from felixhub to cloudflare argo to the local server
 - **Containerization**: Docker (for building and deploying the app)
 - **Kubernetes**: K3s (for container orchestration)
 

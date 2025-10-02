@@ -20,5 +20,11 @@ autoscaling:
 
 service:
   external:
-    enabled: true
+    enabled: false
     nodePort: 30001
+
+
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 2000
