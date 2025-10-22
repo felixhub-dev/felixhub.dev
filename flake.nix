@@ -28,7 +28,7 @@
             tag = "latest";
 
             config = {
-              Cmd = [ "npm" "start" ];
+              Cmd = [ "felixhub" ];
               WorkingDir = "/app";
             };
 
@@ -36,7 +36,9 @@
               name = "felixhub-docker-root";
               paths = [
                 pkgs.nodejs_22
+                pkgs.bash
                 felixhub
+                
               ];
               pathsToLink = [ "/bin" "/app" ];
             };
