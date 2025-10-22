@@ -28,7 +28,7 @@
             tag = "latest";
 
             config = {
-              Cmd = [ "felixhub" ];
+              Cmd = [ "npm" "start" ];
               WorkingDir = "/app";
             };
 
