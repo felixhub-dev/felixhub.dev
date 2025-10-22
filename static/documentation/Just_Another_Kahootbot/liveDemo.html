@@ -233,59 +233,74 @@
 
 </body>
 <script>
-    function go() {
-        var valid = true;
-        var pin = document.getElementById('pin').value.toString();
-        if (pin.length <= 2 || pin.length > 10) {
-            document.getElementById('pinError').innerHTML = 'Error: Invalid Game PIN<br>';
+
+    async function startSwarm() {
+        // Get form values
+        const amount = Number(document.getElementById('amount').value);
+        const gamepin = Number(document.getElementById('gamepin').value);
+        const nickname = document.getElementById('nickname').value.trim();
+        const crash = document.getElementById('crash').checked;
+        const ttl = Number(document.getElementById('ttl').value);
+
+        // Validation
+        let valid = true;
+
+        if (!gamepin || gamepin.toString().length <= 2 || gamepin.toString().length > 10) {
+            alert("Error: Invalid Game PIN");
             valid = false;
-        } else {
-            document.getElementById('pinError').innerHTML = '';
         }
-        var name = document.getElementById('name').value.replace(/\,\s/g, ',');
-        if (name.length < 1) {
-            document.getElementById('nameError').innerHTML = 'Error: Enter at least 1 name<br>';
+
+        if (nickname.length < 1) {
+            alert("Error: Enter a nickname");
             valid = false;
-        } else {
-            document.getElementById('nameError').innerHTML = '';
         }
-        var num = Number(document.getElementById('num').value);
-        if (num < 1 || num > 1000) {
-            document.getElementById('numError').innerHTML = 'Error: Must be between 1-1000<br>';
+
+        if (amount < 1 || amount > 1000) {
+            alert("Error: Amount must be between 1-1000");
             valid = false;
-        } else {
-            document.getElementById('numError').innerHTML = '';
         }
-        if (valid) {
-            document.getElementById('button').innerHTML = ' Joining... Press T to get statistics';
-            document.getElementById('success').innerHTML = '';
-            var url = `http://kahootinator.aryan_m.repl.co/?uid=${Date.now()}&pin=${pin}&names=${encodeURIComponent(name)}&ans=${document.getElementById('ans').value}&numBots=${num}`;
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    console.log('Response: ' + this.responseText);
-                    document.getElementById('button').innerHTML = 'KAHOOTINATE!';
-                    document.getElementById('success').innerHTML = 'Bots have joined!<br>If it didn\'t work, make sure the PIN you entered was correct.<br>Otherwise, try lowering the number of bots and try again.';
-                }
+
+        if (ttl < 1) {
+            alert("Error: TTL must be at least 1");
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        // Update button
+        const button = document.querySelector("button[type='submit']");
+        button.innerText = "Creating Swarm...";
+
+        // Build payload
+        const payload = { amount, gamepin, nickname, crash, ttl };
+
+        try {
+            const response = await fetch('/swarm/createSwarm', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log("Response:", data);
+                alert(`Swarm created! Swarm ID: ${data.swarmid}`);
+            } else {
+                alert(`Error: ${data.error || "Failed to create swarm"}`);
             }
-            xhttp.open("GET", url, true); // true for asynchronous 
-            xhttp.send();
+        } catch (err) {
+            console.error(err);
+            alert("Network or server error occurred.");
+        } finally {
+            button.innerText = "Start Swarm";
         }
     }
 
 
-    function init() {
-        var url = `http://kahootinator.aryan_m.repl.co/`;
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                console.log('REPL woken up');
-            }
-        }
-        xhttp.open("GET", url, true); // true for asynchronous 
-        xhttp.send();
-    }
-    init();
 </script>
+
 
 </html>
