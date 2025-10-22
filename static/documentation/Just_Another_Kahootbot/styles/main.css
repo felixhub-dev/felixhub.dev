@@ -1,5 +1,6 @@
 /* Container for the whole page */
 .container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,11 +12,13 @@
 
 /* Background gradient with text */
 .background {
-    position: absolute;
+    position: fixed;
+    /* covers viewport */
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+
     z-index: -1;
 
     display: flex;
@@ -182,7 +185,7 @@
     color: #845EC2;
 }
 
-/* Terminal container */
+/* Terminal container (all revised from w3 schools)*/
 #mydiv {
     position: absolute;
     bottom: 20px;
@@ -190,26 +193,26 @@
     width: 500px;
     height: 250px;
     background-color: #000;
-    /* terminal black */
+
     color: #00FF00;
-    /* green text */
+
     font-family: monospace;
     font-size: 14px;
     padding: 10px;
     padding-top: 40px;
-    /* space for header inside */
+
     overflow-y: auto;
     white-space: pre-wrap;
     border: 2px solid #333;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     z-index: 100;
     visibility: hidden;
-    /* overflow: hidden; */
+
     min-width: 500;
     min-height: 200;
 }
 
-/* Terminal header inside container */
+
 #mydivheader {
     position: absolute;
     top: 0;
@@ -233,32 +236,32 @@
 
 #term-content {
     width: 100%;
-    /* fill the parent container */
+
     height: 300px;
-    /* fixed height */
+
     overflow-y: auto;
-    /* allow vertical scrolling */
+
     overflow-x: hidden;
-    /* hide horizontal scroll */
+
     background-color: black;
-    /* terminal background */
+
     color: lime;
-    /* text color */
+
     font-family: monospace;
     font-size: 14px;
     line-height: 1.2;
     white-space: pre-wrap;
-    /* preserve line breaks */
+
     padding: 0;
-    /* no inner padding */
+
     margin: 0;
-    /* flush with header */
+
     box-sizing: border-box;
-    /* include padding/border in size */
+
     border: none;
-    /* no visible border */
+
     position: relative;
-    /* positioning relative to parent */
+
 }
 
 /* Header buttons */
