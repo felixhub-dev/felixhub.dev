@@ -2,12 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Project Documentation</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Development Guide</title>
 
-    <!-- Link to external CSS files -->
     <link rel="stylesheet" href="/static/css/documentation.css" />
     <link rel="stylesheet" href="/static/css/main.css" />
     <link rel="stylesheet" href="/static/css/input.css" />
@@ -15,11 +13,11 @@
     <link rel="stylesheet" href="/static/css/animations.css" />
     <link rel="stylesheet" href="/static/css/base.css" />
 
-    <!-- Meta tags -->
-    <meta name="description" content="Project documentation for the Kahoot Bot library and application." />
+    <meta name="description"
+        content="Developer documentation for contributing to the Just_Another_KahootBot project." />
     <meta name="author" content="Felix" />
 
-    <!-- Highlight.js Theme -->
+    <!-- Highlight.js -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
@@ -27,71 +25,185 @@
 
 <body>
     <main class="documentation-container">
-        <h1>Project Documentation</h1>
-        <p class="doc-text">
-            This guide will help you become familiar with the bot on a deeper level.
-            It's intended for people who want to understand how the bot works and may want to contribute.
-            If you're looking to deploy the bot instead of contributing, please check out the deployment guide on the
-            <a href="https://github.com/Feelfeel20088/Just_Another_Kahootbot" class="text-based-link">GitHub
-                repository</a>
-            or the<a href="/projects/kahootbot_installation" class="text-based-link">installation page.</a>
-        </p>
+        <h1>Developer Documentation</h1>
 
-        <!-- 
-        <pre><code class="language-bash>git clone https://github.com/Feelfeel20088/Just_Another_Kahootbot</code></pre>
-        <p class="doc-text">This will </p> -->
+        <p class="doc-text">
+            This guide is for contributors working on the repository (not for deployment). Follow the branching and
+            merge workflow below: create feature branches, merge them into <code>dev</code>, and then once dev is
+            tested and approved it will be merged into <code>master</code> by maintainers.
+        </p>
 
         <div class="note-box">
             <p>
-                <strong>Note:</strong> If you haven't installed <em>Just_Another_KahootBot</em> yet, refer to the
+                <strong>Note:</strong> If you want to deploy or run the bot, see the
                 <a href="/projects/kahootbot_installation" class="text-based-link">installation guide</a>.
             </p>
         </div>
 
-        <!-- <div class="text-block">
-            <h2>Important Information</h2>
-            <p>
-                This documentation assumes you have a solid understanding of Python. If you're not familiar with Python,
-                I recommend reviewing the basics before proceeding.
-                While you can still follow along, some advanced features may be difficult to understand without a deeper
-                grasp of the language. If you're interested in learning more, here are some great resources:
-            </p>
-            <ul>
-                <li><a href="https://www.learnpython.org/" class="text-based-link">Learn Python</a></li>
-                <li><a href="https://realpython.com/" class="text-based-link">Real Python</a></li>
-                <li><a href="https://www.w3schools.com/python/" class="text-based-link">W3Schools Python Tutorial</a>
-                </li>
-            </ul>
-        </div> -->
-
         <div class="text-block">
-            <p>Before diving deeper, it’s important to understand how the bot is structured. It is made up of two main
-                components:</p>
+            <h2>Project Components (quick)</h2>
+            <ul class="doc-list">
+                <li><strong>KahootBot</strong> — core bot logic: WebSocket connection, question parsing, answering.</li>
+                <li><strong>Swarm</strong> — manager for running and supervising multiple KahootBot instances.</li>
+            </ul>
         </div>
-
-        <h2>Main Components</h2>
-        <ul class="doc-list">
-            <li>
-                <strong>KahootBot:</strong> This is the main component. It joins games, answers questions, and makes
-                intelligent decisions about what to do next. It uses WebSockets, as described in the installation guide.
-            </li>
-            <li>
-                <strong>Swarm:</strong> This component manages several KahootBots and ensures they’re running properly.
-                Its primary job is to handle lifetimes, but it also acts as an event handler for certain Kahoot events
-                and decides how to respond.
-            </li>
-        </ul>
 
         <hr class="hr-divider" />
 
+        <div class="text-block">
+            <h2>Branching: Create a Feature Branch</h2>
+            <p>
+                Always create a descriptive feature branch. Work and push there; pull requests should target
+                <code>dev</code>.
+            </p>
 
+            <pre><code class="language-bash">
+# Start from the latest dev
+git checkout dev
+git pull origin dev
 
-        <script>hljs.highlightAll();</script>
+# Create your feature branch
+git checkout -b feature/your-descriptive-name
+            </code></pre>
+
+            <p class="doc-text">
+                Use names like <code>feature/add-logging</code> or <code>fix/reconnect-timeout</code>.
+            </p>
+        </div>
+
+        <div class="text-block">
+            <h2>Committing & Pushing</h2>
+            <p>
+                Keep commits logical and focused. Commit messages should explain <em>what</em> and <em>why</em>.
+            </p>
+
+            <pre><code class="language-bash">
+# Stage changes
+git add <files-or->.
+
+# Commit with a clear message
+git commit -m "feat: add exponential backoff to websocket reconnects"
+
+# Push the branch to remote
+git push origin feature/your-descriptive-name
+            </code></pre>
+        </div>
+
+        <div class="text-block">
+            <h2>Prepare to Merge into <code>dev</code></h2>
+            <p>
+                Before creating a pull request to <code>dev</code>, make sure your branch rebases cleanly on top of
+                the latest <code>dev</code>. This reduces merge conflicts and keeps history easier to reason about.
+            </p>
+
+            <pre><code class="language-bash">
+# Update local dev
+git checkout dev
+git pull origin dev
+
+# Rebase your branch onto dev
+git checkout feature/your-descriptive-name
+git rebase dev
+
+# If conflicts occur, fix them, then:
+git add <resolved-files>
+git rebase --continue
+            </code></pre>
+
+            <p class="doc-text">
+                If rebase becomes messy, you can also merge <code>dev</code> into your branch:
+            </p>
+
+            <pre><code class="language-bash">
+# Alternative: merge dev into your branch (preserves merge commits)
+git checkout feature/your-descriptive-name
+git merge dev
+
+# Resolve any conflicts, then commit the merge
+git push origin feature/your-descriptive-name
+            </code></pre>
+        </div>
+
+        <div class="text-block">
+            <h2>When and How to Squash Commits</h2>
+            <p>
+                Important: <strong>do not</strong> squash every time. Squash only when you need to tidy up the branch
+                history — e.g. when you have multiple WIP/fixup commits that should be combined into a single logical
+                change, or when maintainers request a single commit for a patch. Preserve meaningful, separate commits
+                if they reflect distinct steps or rationale.
+            </p>
+
+            <p class="doc-text">Recommended ways to clean up commits:</p>
+
+            <pre><code class="language-bash">
+# Interactive rebase to squash the last N commits (example: last 5)
+git checkout feature/your-descriptive-name
+git rebase -i HEAD~5
+
+# In the interactive editor: mark commits to squash (s / fixup) as needed,
+# save and close the editor to complete the rebase.
+            </code></pre>
+
+            <p class="doc-text">
+                You can also use <code>--autosquash</code> with properly formatted fixup commits:
+            </p>
+
+            <pre><code class="language-bash">
+# Mark a commit as fixup when creating the commit
+git commit --fixup <sha-of-target-commit>
+
+# Then run interactive rebase with autosquash
+git rebase -i --autosquash dev
+            </code></pre>
+
+            <p class="doc-text">
+                After rewriting history (rebasing/squashing), push safely with:
+            </p>
+
+            <pre><code class="language-bash">
+# Force push safely (preferred)
+git push --force-with-lease origin feature/your-descriptive-name
+            </code></pre>
+
+            <p class="doc-text">
+                <strong>Do not force-push</strong> to branches shared by multiple collaborators without coordination.
+            </p>
+        </div>
+
+        <div class="text-block">
+            <h2>Create a Pull Request to <code>dev</code></h2>
+            <p>
+                Open a pull request targeting <code>dev</code>. Add a clear description, testing steps, and link related
+                issues. Address review comments and keep the PR focused on a single change if possible.
+            </p>
+
+            <pre><code class="language-bash">
+# Example workflow summary:
+# 1. Ensure branch is up-to-date with dev (rebase or merge)
+# 2. Optionally tidy commits (interactive rebase) if necessary
+# 3. Push (force-with-lease if history changed)
+# 4. Open PR against dev
+            </code></pre>
+        </div>
+
+        <div class="text-block">
+            <h2>What Happens Next</h2>
+            <p>
+                Once PRs to <code>dev</code> are reviewed and approved, maintainers will merge <code>dev</code> into
+                <code>master</code> at appropriate release times. This centralizes integration and testing on
+                <code>dev</code>.
+            </p>
+        </div>
+
+        <hr class="hr-divider" />
 
         <footer>
             <p>felixhub.dev © 2025</p>
         </footer>
     </main>
+
+
+    <script>hljs.highlightAll();</script>
 </body>
 
 </html>

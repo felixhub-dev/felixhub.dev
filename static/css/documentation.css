@@ -46,8 +46,8 @@
 }
 
 /* Heading Styles */
-.documentation-container h1, 
-.documentation-container h2, 
+.documentation-container h1,
+.documentation-container h2,
 .documentation-container h3 {
     color: #ff7e5f;
     font-weight: bold;
