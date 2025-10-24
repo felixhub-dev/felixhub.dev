@@ -34,7 +34,7 @@ export default class kahootBotStatus extends RootFelixHubServiceBase {
         }
 
         try {
-            const response = await fetch(URL.kahootbot_internal + "/swarm/createSwarm", {
+            const response = await fetch(URL.kahootbot_internal + "/swarm", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
