@@ -13,10 +13,11 @@ export default class kahootBotStartSwarm extends RootFelixHubServiceBase {
             nickname: string,
             crash: string | boolean,
             ttl: number
+            // uuid: string
         }
     }>, reply: FastifyReply): Promise<void> {
 
-
+        console.log(typeof req.body.gamepin);
         req.body.crash = req.body.crash === 'on' || req.body.crash === true;
         if (req.body.amount > 200 || req.body.ttl > 300) {
             reply.status(400).send({ error: "amount cant be greater then 200 and ttl cannot be greater then 300 (5m)" });

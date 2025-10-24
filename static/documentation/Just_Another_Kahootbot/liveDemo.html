@@ -12,7 +12,6 @@
     <meta name="keywords"
         content="kahoot bot, Just_Another_Kahoot_Bot, just another kahoot bot, JAKBOT, kahoot spammer, kahoot, kahoot hack">
     <meta name="language" content="English">
-    <link rel="icon" href="icon.png">
     <link rel="stylesheet" type="text/css" href="/static/documentation/Just_Another_Kahootbot/styles/main.css">
 </head>
 
@@ -194,17 +193,10 @@
             <input class='input' type='text' id='name' placeholder='Felix' value='Joe,Bob,Billy'><br>
             <span class='error' id='nameError'></span><br>
 
-            <!-- <label for="ans">Bot will answer: </label><br>
-            <select class="input" name="ans" id="ans">
-                <option value="random">Randomly</option>
-                <option value="never">Never</option>
-                <option value="0">First (Red Triangle)</option>
-                <option value="1">Second (Blue Diamond)</option>
-            </select><br><br> -->
             Number of bots:<br>
             <input class='input' type='number' id='num' placeholder='100' value='100'><br>
             <span class='error' id='numError'></span><br>
-            <button class='button' onclick="go()" id="button">Receive disciplinary action</button><br>
+            <button class='button' onclick="startSwarm()" id="button">Receive disciplinary action</button><br>
             <span id='success' class='success'></span>
         </div>
 
@@ -235,17 +227,21 @@
 <script>
 
     async function startSwarm() {
-        // Get form values
-        const amount = Number(document.getElementById('amount').value);
-        const gamepin = Number(document.getElementById('gamepin').value);
-        const nickname = document.getElementById('nickname').value.trim();
-        const crash = document.getElementById('crash').checked;
-        const ttl = Number(document.getElementById('ttl').value);
+        const gamepin = document.getElementById('pin').value;
+        const nickname = document.getElementById('name').value;
+        const amount = Number(document.getElementById('num').value);
+
+
+        // placeholder
+        const crash = false;
+        const ttl = 15;
+        // const uuid = null;
+
 
         // Validation
         let valid = true;
 
-        if (!gamepin || gamepin.toString().length <= 2 || gamepin.toString().length > 10) {
+        if (!gamepin || gamepin.length <= 2 || gamepin.length > 10) {
             alert("Error: Invalid Game PIN");
             valid = false;
         }
@@ -267,15 +263,14 @@
 
         if (!valid) return;
 
-        // Update button
-        const button = document.querySelector("button[type='submit']");
+        const button = document.getElementById("button");
         button.innerText = "Creating Swarm...";
 
         // Build payload
         const payload = { amount, gamepin, nickname, crash, ttl };
 
         try {
-            const response = await fetch('/swarm/createSwarm', {
+            const response = await fetch('/kahootswarm', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
