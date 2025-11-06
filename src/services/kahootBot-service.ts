@@ -17,7 +17,8 @@ export default class kahootBotStartSwarm extends RootFelixHubServiceBase {
         }
     }>, reply: FastifyReply): Promise<void> {
 
-        console.log(typeof req.body.gamepin);
+        console.log(req.body.gamepin)
+
         req.body.crash = req.body.crash === 'on' || req.body.crash === true;
         if (req.body.amount > 200 || req.body.ttl > 300) {
             reply.status(400).send({ error: "amount cant be greater then 200 and ttl cannot be greater then 300 (5m)" });
@@ -35,7 +36,7 @@ export default class kahootBotStartSwarm extends RootFelixHubServiceBase {
         }
 
         try {
-            const response = await fetch(URL.kahootbot_internal + "/swarm/createSwarm", {
+            const response = await fetch(URL.kahootbot_local + "/swarm/createSwarm", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -126,7 +126,7 @@
             function commands(text) {
                 console.log(text)
                 if (text == "oneshot") {
-
+                    // todo
                 }
             }
 
@@ -184,8 +184,8 @@
         </script>
 
         <div class='form'>
-            Game PIN:<br>
-            <input class='input' type='number' id='pin' placeholder='000000'><br>
+            Game PIN (the game link will also work):<br>
+            <input class='input' type='text' id='pin' placeholder='000000'><br>
             <span class='error' id='pinError'></span><br>
             Name for you bot:<br>
             (Each bot will have this name + a generated hash)
@@ -196,6 +196,13 @@
             Number of bots:<br>
             <input class='input' type='number' id='num' placeholder='100' value='100'><br>
             <span class='error' id='numError'></span><br>
+            ttl (Time to live)
+            <input class='input' type='number' id='ttl' placeholder='60' value="60"><br>
+            <span class='error' id='ttlError'></span><br>
+            crash (kill the game)
+            <input class='input' type='checkbox' id='crash'><br>
+            <span class='error' id='crashError'></span><br>
+
             <button class='button' onclick="startSwarm()" id="button">Receive disciplinary action</button><br>
             <span id='success' class='success'></span>
         </div>
@@ -227,41 +234,46 @@
 <script>
 
     async function startSwarm() {
-        const gamepin = document.getElementById('pin').value;
-        const nickname = document.getElementById('name').value;
+        const gamepin = document.getElementById('pin').value.trim();
+        const nickname = document.getElementById('name').value.trim();
         const amount = Number(document.getElementById('num').value);
+        const ttl = Number(document.getElementById('ttl').value);
+        const crash = document.getElementById('crash').checked;
 
 
-        // placeholder
-        const crash = false;
-        const ttl = 15;
-        // const uuid = null;
+        ['pinError', 'nameError', 'numError', 'ttlError', 'crashError', 'success'].forEach(id => {
+            document.getElementById(id).innerText = '';
+        });
 
-
-        // Validation
         let valid = true;
 
-        if (!gamepin || gamepin.length <= 2 || gamepin.length > 10) {
-            alert("Error: Invalid Game PIN");
+
+        if (!gamepin) {
+            document.getElementById('pinError').innerText = 'Please enter a valid game PIN or link.';
+            valid = false;
+        } else if (!/^\d+$/.test(gamepin) && !gamepin.includes("kahoot.it")) {
+            document.getElementById('pinError').innerText = 'PIN must be numeric or a valid kahoot.it link.';
             valid = false;
         }
 
         if (nickname.length < 1) {
-            alert("Error: Enter a nickname");
+            document.getElementById('nameError').innerText = 'Please enter at least one bot name.';
             valid = false;
         }
 
-        if (amount < 1 || amount > 1000) {
-            alert("Error: Amount must be between 1-1000");
+        if (isNaN(amount) || amount < 1 || amount > 100) {
+            document.getElementById('numError').innerText = 'Number of bots must be between 1 and 100.';
             valid = false;
         }
 
-        if (ttl < 1) {
-            alert("Error: TTL must be at least 1");
+        if (isNaN(ttl) || ttl < 10) {
+            document.getElementById('ttlError').innerText = 'TTL must be at least 10 second.';
             valid = false;
         }
 
-        if (!valid) return;
+        if (!valid) {
+            return; // Stop if validation fails
+        }
 
         const button = document.getElementById("button");
         button.innerText = "Creating Swarm...";
@@ -272,25 +284,22 @@
         try {
             const response = await fetch('/kahootswarm', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
             const data = await response.json();
-
             if (response.ok) {
+                document.getElementById('success').innerText = 'Swarm started successfully!';
                 console.log("Response:", data);
-                alert(`Swarm created! Swarm ID: ${data.swarmid}`);
             } else {
-                alert(`Error: ${data.error || "Failed to create swarm"}`);
+                document.getElementById('success').innerText = `Failed to start swarm: ${data.error || 'Unknown error'}`;
             }
         } catch (err) {
+            document.getElementById('success').innerText = 'Network error: ' + err.message;
             console.error(err);
-            alert("Network or server error occurred.");
         } finally {
-            button.innerText = "Start Swarm";
+            button.innerText = "Receive disciplinary action";
         }
     }
 
